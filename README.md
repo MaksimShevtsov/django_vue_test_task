@@ -68,7 +68,7 @@ npm install -g @vue/cli
 * POST
 * PUT
 
-**/customers/:id**
+**/customer/:id**
 * DELETE
 
 **/orders**
@@ -76,7 +76,7 @@ npm install -g @vue/cli
 * POST
 * PUT
 
-**/customer/:id**
+**/order/:id**
 * DELETE
 
 ## Compiles and hot-reloads for development
