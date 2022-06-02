@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14
+    ports:
+      - 32700:5432
+    volumes:
+      - ./logistic_django_backend/data:/var/lib/postgresql/data
+    restart: unless-stopped
+    environment:
+        - "POSTGRES_HOST_AUTH_METHOD=trust"
+
+  django:
+    container_name: backend_django
+    restart: always
+    build: ./logistic_django_backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .back:/code
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    depends_on:
+      - db
+    env_file:
+      - ./logistic_django_backend/.env
+
+  vue:
+    container_name: frontend_vue
+    restart: always
+    build:
+      context: .
+      dockerfile: ./logistic_vue_ui/Dockerfile
+    volumes:
+      - .front:/project_vue
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    depends_on:
+      - django
+
+volumes:
+  data:
+  back:
+  front:

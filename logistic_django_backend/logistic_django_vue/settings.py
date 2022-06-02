@@ -12,21 +12,27 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+import os
+import environ
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #TODO
-# SECRET_KEY = os.environ['SECRET_KEY']
-SECRET_KEY = 'django-insecure-ejk0=^)oer)%+8ndh18c-ar#caj)h^9%4qs)*(=15=i(&-3*mx'
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ['DEBUG'] #TODO
-DEBUG = True
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env('SECRET_KEY')
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env('DEBUG')
+
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -81,20 +87,15 @@ WSGI_APPLICATION = 'logistic_django_vue.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-#TODO
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': os.environ['DATABASE_NAME'],
-        # 'HOST': os.environ['DATABASE_HOST'],
-        # 'PORT': int(os.environ['DATABASE_PORT']),
-        # 'USER': os.environ['DATABASE_USER'],
-        # 'PASSWORD': os.environ['DATABASE_PASSWORD'],
-        'NAME': 'local_db',
-        'HOST': 'localhost',
-        'PORT': 32700,
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'NAME': env('DATABASE_NAME'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
     }
 }
 
