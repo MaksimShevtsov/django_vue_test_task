@@ -10,7 +10,7 @@
 * [Test](#test)
 
 ## General Information
-The business logic is completely separate from the presentation logic. Repositories in services are simple Python functions that are easy to test. We can call our services from any component, and we can also reuse some services in other projects. The ability to use different storage methods: ORM, cloud storage, file system etc, replace them and combine them.
+The business logic is completely separate from the view logic. Repositories in services are simple Python functions that are easy to test. We can call our services from any component, and we can also reuse some services in other projects. The ability to use different storage methods: ORM, cloud storage, file system etc, replace them and combine them.
 
 ![Example screenshot](./img/arc_dj.png)
 
