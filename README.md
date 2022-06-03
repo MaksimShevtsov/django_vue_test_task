@@ -85,10 +85,21 @@ $ docker exec -it container-name bash
 
 ## API
 
-**/shipping_method**
+**/shipping_methods**
 * GET
 * POST
+```
+{
+"shipping_method_name": string,
+}
+``` 
 * PUT
+```
+{
+"shipping_method_id": int,
+"shipping_method_name": string,
+}
+``` 
 
 **/shipping_method/:id**
 * DELETE
@@ -96,27 +107,56 @@ $ docker exec -it container-name bash
 **/customers**
 * GET
 * POST
+```
+{
+"customer_name": string,
+"customer_delivery_address": string
+}
+``` 
 * PUT
-
+```
+{
+"customer_id: int,
+"customer_name": string,
+"customer_delivery_address": string
+}
+``` 
 **/customer/:id**
 * DELETE
+```
+{"customer_id": int}
+```
 
 **/orders**
 * GET
 * POST
+```
+{
+"shipping_date": data,
+"tracking_no": int,
+"status":bool,
+"customer_id": int,
+"shipping_method_id": int
+}
+```
 * PUT
+```
+{
+"order_id": int,
+"shipping_date": data,
+"tracking_no": int,
+"status":bool,
+"customer_id": int,
+"shipping_method_id": int
+}
+```
 
 **/order/:id**
 * DELETE
+```
+{"order_id": int}
+```
 
-## Compiles and hot-reloads for development
-```
-python3 manage.py runserver
-docker-compose -f docker-compose.dev.yaml up
-python3 manage.py makemigrations shipments_app
-python3 manage.py migrat shipments_app
-npm run serve
-```
 ## Test
 ```
 python manage.py test
