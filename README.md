@@ -51,7 +51,6 @@ Docker should install everything else in their containers.
 ## Setup App
 ```
 $ git clone https://github.com/MaksimShevtsov/django_vue_test_task.git
-$ cd docker-django-vue
 ```
 Setup
 ```
