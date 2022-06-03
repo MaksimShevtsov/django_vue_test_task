@@ -7,7 +7,7 @@
         </div>
         <div class="content">
         
-            <button class="button is-success" @click="showModal">Add customer</button>
+            <button class="button is-success" @click="showModal()">Add customer</button>
        
         </div>
         <div class="conteiner">
@@ -24,12 +24,12 @@
                                     placeholder="Find by id">
                             </div>
                             <div>
-                                <button @click="sortResult('CustomerId',true)" class="button is-small is-white">
+                                <button @click="sortResult('customer_id',true)" class="button is-small is-white">
                                     <img src="https://img.icons8.com/ios-glyphs/15/000000/down--v1.png"/>
                                 </button>
                             </div>
                             <div>
-                                <button @click="sortResult('CustomerId',false)" class="button is-small is-white">
+                                <button @click="sortResult('customer_id',false)" class="button is-small is-white">
                                     <img src="https://img.icons8.com/ios-glyphs/15/000000/up--v1.png"/>
                                 </button>
                             </div>
@@ -45,12 +45,12 @@
                                     placeholder="Find by name">
                             </div>
                             <div class="block">
-                                <button @click="sortResult('CustomerName',true)" class="button is-small is-white">
+                                <button @click="sortResult('customer_name',true)" class="button is-small is-white">
                                     <img src="https://img.icons8.com/ios-glyphs/15/000000/down--v1.png"/>
                                 </button>
                             </div>
                             <div>
-                                <button @click="sortResult('CustomerName',false)" class="button is-small is-white">
+                                <button @click="sortResult('customer_name',false)" class="button is-small is-white">
                                     <img src="https://img.icons8.com/ios-glyphs/15/000000/up--v1.png"/>
                                 </button>
                             </div>
@@ -66,12 +66,12 @@
                                     placeholder="Find by address">
                             </div>
                             <div class="block">
-                                <button @click="sortResult('CustomerDeliveryAddress',true)" class="button is-small is-white">
+                                <button @click="sortResult('customer_delivery_address',true)" class="button is-small is-white">
                                     <img src="https://img.icons8.com/ios-glyphs/15/000000/down--v1.png"/>
                                 </button>
                             </div>
                             <div>
-                                <button @click="sortResult('CustomerDeliveryAddress',false)" class="button is-small is-white">
+                                <button @click="sortResult('customer_delivery_address',false)" class="button is-small is-white">
                                     <img src="https://img.icons8.com/ios-glyphs/15/000000/up--v1.png"/>
                                 </button>
                             </div>
@@ -83,15 +83,15 @@
                     <tr 
                         v-for="customer in customers"
                         v-bind:key="customer.id">
-                        <td>{{customer.CustomerId}}</td>
-                        <td>{{customer.CustomerName}}</td>
-                        <td>{{customer.CustomerDeliveryAddress}}</td>
+                        <td>{{customer.customer_id}}</td>
+                        <td>{{customer.customer_name}}</td>
+                        <td>{{customer.customer_delivery_address}}</td>
                         <td><button @click="editClick(customer)" class="button is-small is-white">
                             <img src="https://img.icons8.com/ios-glyphs/15/000000/edit--v1.png"/>
                         </button>
                         </td>
                         <td>
-                            <button @click="deleteClick(customer.CustomerId)" class="button is-small is-white">
+                            <button @click="deleteClick(customer.customer_id)" class="button is-small is-white">
                                 <img src="https://img.icons8.com/ios-glyphs/15/000000/delete-sign.png"/>
                             </button>
                         </td>
@@ -104,7 +104,7 @@
                 <div class="modal-card">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Customer</p>
-                            <button class="delete" aria-label="close" @click="cancelModal">></button>
+                            <button class="delete" aria-label="close" @click="cancelModal()">></button>
                     </header>
                     <section class="modal-card-body">
                         <div class="input-group mb-3">
@@ -117,9 +117,9 @@
                         </div>                         
                     </section>
                 <footer class="modal-card-foot">
-                    <button class="button is-success" type="button" @click="createClick" v-if="CustomerId==0">Create</button>
+                    <button class="button is-success" type="button" @click="createClick()" v-if="CustomerId==0">Create</button>
                     <button class="button is-success" type="button" @click="updateClick()" v-if="CustomerId!=0">Update</button>
-                    <button class="button" @click="cancelModal">Cancel</button>
+                    <button class="button" @click="cancelModal()">Cancel</button>
                 </footer>
             </div>
         </div>
@@ -135,12 +135,10 @@ export default ({
     data() {
         return {
             customers:{},
-            CustomerId:0,
-            CustomerName:"",
             CustomerAddr:"",
-            CustomerDeliveryAddress:"",
             showModalFlag: false,
             okPressed: false,
+            CustomerId:0,
             CustomerNameFilter:"",
             CustomerIdFilter:"",
             CustomerAddFilter:"",
@@ -176,8 +174,8 @@ export default ({
         this.okPressed = true;
         this.showModalFlag = false;
         axios.post('/api/v1/customers',{
-            CustomerName:this.CustomerName,
-            CustomerDeliveryAddress:this.CustomerAddr
+            customer_name:this.CustomerName,
+            customer_delivery_address:this.CustomerAddr
         })
         .then((response)=>{
             this.refreshData();
@@ -188,18 +186,18 @@ export default ({
         editClick(method){
         this.okPressed = false;
         this.showModalFlag = true;
-        this.modalTitle="Edit customer";
-        this.CustomerId=method.CustomerId;
-        this.CustomerName=method.CustomerName;
+        this.CustomerId=method.customer_id;
+        this.CustomerName=method.customer_name;
+        this.CustomerAddr=method.customer_delivery_address;
         },
 
         updateClick(){
         this.okPressed = true;
         this.showModalFlag = false;
         axios.put('/api/v1/customers',{
-            CustomerId:this.CustomerId,
-            CustomerName:this.CustomerName,
-            CustomerDeliveryAddress:this.CustomerAddr
+            customer_id:this.CustomerId,
+            customer_name:this.CustomerName,
+            customer_delivery_address:this.CustomerAddr
         })
         .then((response)=>{
             this.refreshData();
@@ -226,13 +224,13 @@ export default ({
 
             this.customers=this.customersWithoutFilter.filter(
                 function(el){
-                    return el.CustomerId.toString().toLowerCase().includes(
+                    return el.customer_id.toString().toLowerCase().includes(
                         CustomersIdFilter.toString().trim().toLowerCase()
                     )&&
-                    el.CustomerName.toString().toLowerCase().includes(
+                    el.customer_name.toString().toLowerCase().includes(
                         CustomersNameFilter.toString().trim().toLowerCase()
                     )&&
-                    el.CustomerDeliveryAddress.toString().toLowerCase().includes(
+                    el.customer_delivery_address.toString().toLowerCase().includes(
                         CustomerAddFilter.toString().trim().toLowerCase()
                     )
                 });

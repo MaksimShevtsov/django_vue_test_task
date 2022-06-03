@@ -7,7 +7,7 @@
         </div>
         <div class="content">
         
-            <button class="button is-success" @click="showModal">Add shipping method</button>
+            <button class="button is-success" @click="showModal()">Add shipping method</button>
        
         </div>
         <div class="conteiner">
@@ -24,12 +24,12 @@
                                     placeholder="Find by id">
                             </div>
                             <div>
-                                <button @click="sortResult('ShippingMethodId',true)" class="button is-small is-white">
+                                <button @click="sortResult('shipping_method_id',true)" class="button is-small is-white">
                                     <img src="https://img.icons8.com/ios-glyphs/15/000000/down--v1.png"/>
                                 </button>
                             </div>
                             <div>
-                                <button @click="sortResult('ShippingMethodId',false)" class="button is-small is-white">
+                                <button @click="sortResult('shipping_method_id',false)" class="button is-small is-white">
                                     <img src="https://img.icons8.com/ios-glyphs/15/000000/up--v1.png"/>
                                 </button>
                             </div>
@@ -45,12 +45,12 @@
                                     placeholder="Find by method">
                             </div>
                             <div class="block">
-                                <button @click="sortResult('ShippingMethodName',true)" class="button is-small is-white">
+                                <button @click="sortResult('shipping_method_name',true)" class="button is-small is-white">
                                     <img src="https://img.icons8.com/ios-glyphs/15/000000/down--v1.png"/>
                                 </button>
                             </div>
                             <div>
-                                <button @click="sortResult('ShippingMethodName',false)" class="button is-small is-white">
+                                <button @click="sortResult('shipping_method_name',false)" class="button is-small is-white">
                                     <img src="https://img.icons8.com/ios-glyphs/15/000000/up--v1.png"/>
                                 </button>
                             </div>
@@ -62,14 +62,14 @@
                     <tr 
                         v-for="method in shippingmethods"
                         v-bind:key="method.id">
-                        <td>{{method.ShippingMethodId}}</td>
-                        <td>{{method.ShippingMethodName}}</td>
+                        <td>{{method.shipping_method_id}}</td>
+                        <td>{{method.shipping_method_name}}</td>
                         <td><button @click="editClick(method)" class="button is-small is-white">
                             <img src="https://img.icons8.com/ios-glyphs/15/000000/edit--v1.png"/>
                         </button>
                         </td>
                         <td>
-                            <button @click="deleteClick(method.ShippingMethodId)" class="button is-small is-white">
+                            <button @click="deleteClick(method.shipping_method_id)" class="button is-small is-white">
                                 <img src="https://img.icons8.com/ios-glyphs/15/000000/delete-sign.png"/>
                             </button>
                         </td>
@@ -82,7 +82,7 @@
                 <div class="modal-card">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Shipping method</p>
-                            <button class="delete" aria-label="close" @click="cancelModal">></button>
+                            <button class="delete" aria-label="close" @click="cancelModal()">></button>
                     </header>
                     <section class="modal-card-body">
                         <div class="input-group mb-3">
@@ -91,9 +91,9 @@
                         </div>                       
                     </section>
                 <footer class="modal-card-foot">
-                    <button class="button is-success" type="button" @click="createClick" v-if="ShippingMethodId==0">Create</button>
+                    <button class="button is-success" type="button" @click="createClick()" v-if="ShippingMethodId==0">Create</button>
                     <button class="button is-success" type="button" @click="updateClick()" v-if="ShippingMethodId!=0">Update</button>
-                    <button class="button" @click="cancelModal">Cancel</button>
+                    <button class="button" @click="cancelModal()">Cancel</button>
                 </footer>
             </div>
         </div>
@@ -109,10 +109,9 @@ export default ({
     data() {
         return {
             shippingmethods:{},
-            ShippingMethodId:0,
-            ShippingMethodName:"",
             showModalFlag: false,
             okPressed: false,
+            ShippingMethodId:0,
             ShippingMethodNameFilter:"",
             ShippingMethodIdFilter:"",
             shipmentsWithoutFilter:{}
@@ -121,7 +120,7 @@ export default ({
 
     methods: {
         refreshData(){
-            axios.get('/api/v1/shipping_method')
+            axios.get('/api/v1/shipping_methods')
             .then((response)=>{
                 this.shippingmethods=response.data;
                 this.shipmentsWithoutFilter=response.data;
@@ -146,8 +145,8 @@ export default ({
         createClick(){
         this.okPressed = true;
         this.showModalFlag = false;
-        axios.post('/api/v1/shipping_method',{
-            ShippingMethodName:this.ShippingMethodName
+        axios.post('/api/v1/shipping_methods',{
+            shipping_method_name:this.ShippingMethodName
         })
         .then((response)=>{
             this.refreshData();
@@ -159,16 +158,16 @@ export default ({
         this.okPressed = false;
         this.showModalFlag = true;
         this.modalTitle="Edit shipping method";
-        this.ShippingMethodId=method.ShippingMethodId;
-        this.ShippingMethodName=method.ShippingMethodName;
+        this.ShippingMethodId=method.shipping_method_id;
+        this.ShippingMethodName=method.shipping_method_name;
         },
 
         updateClick(){
         this.okPressed = true;
         this.showModalFlag = false;
-        axios.put('/api/v1/shipping_method',{
-            ShippingMethodId:this.ShippingMethodId,
-            ShippingMethodName:this.ShippingMethodName
+        axios.put('/api/v1/shipping_methods',{
+            shipping_method_id:this.ShippingMethodId,
+            shipping_method_name:this.ShippingMethodName
         })
         .then((response)=>{
             this.refreshData();
@@ -194,10 +193,10 @@ export default ({
 
             this.shippingmethods=this.shipmentsWithoutFilter.filter(
                 function(el){
-                    return el.ShippingMethodId.toString().toLowerCase().includes(
+                    return el.shipping_method_id.toString().toLowerCase().includes(
                         ShippingMethodIdFilter.toString().trim().toLowerCase()
                     )&&
-                    el.ShippingMethodName.toString().toLowerCase().includes(
+                    el.shipping_method_name.toString().toLowerCase().includes(
                         ShippingMethodNameFilter.toString().trim().toLowerCase()
                     )
                 });

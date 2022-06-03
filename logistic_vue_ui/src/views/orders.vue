@@ -8,25 +8,25 @@
         <div class="container">
             <div class="columns">
                 <div class="column">
-                    <button class="button is-success" @click="showModal">Add order</button>
+                    <button class="button is-success" @click="showModal()">Add order</button>
                 </div>
                 <div class="column">
                     <div class="control">
                         <input class="input is-small"
-                            v-model="CustomerIdFilter"
+                            v-model="OrderIdFilter"
                             v-on:keyup="FilterFn()"
                             type="text" 
-                            placeholder="Find by customer id">
+                            placeholder="Find by order id">
                     </div>                    
                 </div>
                 <div class="column">
                         <span>Sorting by Tracking No</span>
 
-                        <button @click="sortResult('TrackingNo',true)" class="button is-small is-white">
+                        <button @click="sortResult('tracking_no',true)" class="button is-small is-white">
                             <img src="https://img.icons8.com/ios-glyphs/15/000000/down--v1.png"/>
                         </button>
 
-                        <button @click="sortResult('TrackingNo',false)" class="button is-small is-white">
+                        <button @click="sortResult('tracking_no',false)" class="button is-small is-white">
                             <img src="https://img.icons8.com/ios-glyphs/15/000000/up--v1.png"/>
                         </button>
  
@@ -41,6 +41,7 @@
                     <th title="CUSTOMER NAME">Customer name</th>
                     <th title="CUSTOMER ID">Customer Id</th>
                     <th title="DELIVERY ADDRESS">Delivery address</th>
+                    <th title="SHIPPING METHOD">Shipping method Id</th>
                     <th title="SHIPPING METHOD">Shipping method</th>
                     <th title="SHIPPING DATE">Shipping date</th>
                     <th title="TRACKING NO.">Tracking number</th>
@@ -53,6 +54,7 @@
                     <th title="CUSTOMER NAME">Customer name</th>
                     <th title="CUSTOMER ID">Customer Id</th>
                     <th title="DELIVERY ADDRESS">Delivery address</th>
+                    <th title="SHIPPING METHOD">Shipping method Id</th>
                     <th title="SHIPPING METHOD">Shipping method</th>
                     <th title="SHIPPING DATE">Shipping date</th>
                     <th title="TRACKING NO.">Tracking number</th>
@@ -63,20 +65,21 @@
                     <tr 
                         v-for="order in orders"
                         v-bind:key="order.id">
-                        <td>{{order.OrderId}}</td>
-                        <td>{{order.customer.CustomerName}}</td>
-                        <td>{{order.customer.CustomerId}}</td>
-                        <td>{{order.customer.CustomerDeliveryAddress}}</td>
-                        <td>{{order.shipping.ShippingMethodName}}</td>
-                        <td>{{order.ShippingDate}}</td>
-                        <td>{{order.TrackingNo}}</td>
-                        <td>{{order.Status}}</td>
+                        <td>{{order.order_id}}</td>
+                        <td>{{order.customer.customer_name}}</td>
+                        <td>{{order.customer.customer_id}}</td>
+                        <td>{{order.customer.customer_delivery_address}}</td>
+                        <td>{{order.shipping_method.shipping_method_id}}</td>
+                        <td>{{order.shipping_method.shipping_method_name}}</td>
+                        <td>{{order.shipping_date}}</td>
+                        <td>{{order.tracking_no}}</td>
+                        <td>{{order.status}}</td>
                         <td><button @click="editClick(order)" class="button is-small is-white">
                             <img src="https://img.icons8.com/ios-glyphs/15/000000/edit--v1.png"/>
                         </button>
                         </td>
                         <td>
-                            <button @click="deleteClick(order.OrderId)" class="button is-small is-white">
+                            <button @click="deleteClick(order.order_id)" class="button is-small is-white">
                                 <img src="https://img.icons8.com/ios-glyphs/15/000000/delete-sign.png"/>
                             </button>
                         </td>
@@ -89,7 +92,7 @@
                 <div class="modal-card">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Order</p>
-                            <button class="delete" aria-label="close" @click="cancelModal">></button>
+                            <button class="delete" aria-label="close" @click="cancelModal()">></button>
                     </header>
                     <section class="modal-card-body">
                         <div class="input-group py-3">
@@ -97,10 +100,10 @@
                                 <div class="column is-one-fifth"><span class="input-group-text">Customer</span></div>
                                 <div class="column">
                                     <div class="select is-normal">
-                                        <select v-model="CustomerName">
-                                            <option v-for="cust in orders"
+                                        <select v-model="CustomerId">
+                                            <option v-for="cust in customers"
                                                     v-bind:key="cust.id">
-                                                    {{cust.customer.CustomerId}}
+                                                    {{cust.customer_id}}
                                             </option>
                                         </select>
                                     </div>
@@ -111,9 +114,9 @@
                                 <div class="column">
                                     <div class="select is-normal">
                                         <select v-model="ShippingMethod">
-                                            <option v-for="ship in orders"
+                                            <option v-for="ship in shippingmethods"
                                                     v-bind:key="ship.id">
-                                                    {{ship.shipping.ShippingMethodId}}
+                                                    {{ship.shipping_method_id}}
                                             </option>
                                         </select>
                                     </div>
@@ -130,13 +133,13 @@
                         </div>
                         <div class="input-group py-3">
                             <span class="input-group-text">Status</span>
-                            <input class="input is-primary" type="bool" placeholder="Customer address" v-model="Status">
+                            <input class="input is-primary" type="bool" placeholder="Status" v-model="Status">
                         </div>                            
                     </section>
                 <footer class="modal-card-foot">
-                    <button class="button is-success" type="button" @click="createClick" v-if="OrderId==0">Create</button>
-                    <button class="button is-success" type="button" @click="updateClick" v-if="OrderId!=0">Update</button>
-                    <button class="button" @click="cancelModal">Cancel</button>
+                    <button class="button is-success" type="button" @click="createClick()" v-if="OrderId==0">Create</button>
+                    <button class="button is-success" type="button" @click="updateClick()" v-if="OrderId!=0">Update</button>
+                    <button class="button" @click="cancelModal()">Cancel</button>
                 </footer>
             </div>
         </div>
@@ -151,16 +154,15 @@ export default ({
     
     data() {
         return {
-            orders:{},
-            Customers:"",
-            OrderId:0,
-            CustomerName:"",
+            orders:[],
+            shippingmethods:[],
+            CustomerId:0,
             CustomerAddr:"",
-            CustomerDeliveryAddress:"",
             showModalFlag: false,
             okPressed: false,
-            CustomerIdFilter:"",
-            ordersWithoutFilter:{},
+            OrderId:0,
+            OrderIdFilter:"",
+            ordersWithoutFilter:[],
             ShippingMethod:"",
             ShippingDate:"",
             TrackingNumber:0,
@@ -174,6 +176,14 @@ export default ({
             .then((response)=>{
                 this.orders=response.data;
                 this.ordersWithoutFilter=response.data;
+            });
+            axios.get('/api/v1/shipping_methods')
+            .then((response)=>{
+                this.shippingmethods=response.data;
+            });
+            axios.get('/api/v1/customers')
+            .then((response)=>{
+                this.customers=response.data;
             });
         },
 
@@ -196,11 +206,11 @@ export default ({
         this.okPressed = true;
         this.showModalFlag = false;
         axios.post('/api/v1/orders',{
-            Customer_id:this.CustomerName,
-            ShippingMethod_id:this.ShippingMethod,
-            ShippingDate:this.ShippingDate,
-            TrackingNo:this.TrackingNumber,
-            Status:this.Status
+            customer_id:this.CustomerId,
+            shipping_method_id:this.ShippingMethod,
+            shipping_date:this.ShippingDate,
+            tracking_no:this.TrackingNumber,
+            status:this.Status
         })
         .then((response)=>{
             this.refreshData();
@@ -211,18 +221,24 @@ export default ({
         editClick(method){
         this.okPressed = false;
         this.showModalFlag = true;
-        this.modalTitle="Edit order";
-        this.CustomerId=method.CustomerId;
-        this.CustomerName=method.CustomerName;
+        this.CustomerId=method.customer.customer_id;
+        this.ShippingMethod=method.shipping_method.shipping_method_id;
+        this.OrderId=method.order_id;
+        this.ShippingDate=method.shipping_date;
+        this.TrackingNumber=method.tracking_no;
+        this.Status=method.status;
         },
 
         updateClick(){
         this.okPressed = true;
         this.showModalFlag = false;
         axios.put('/api/v1/orders',{
-            CustomerId:this.CustomerId,
-            CustomerName:this.CustomerName,
-            CustomerDeliveryAddress:this.CustomerAddr
+            order_id:this.OrderId,
+            shipping_date:this.ShippingDate,
+            tracking_no:this.TrackingNumber,
+            status:this.Status,
+            customer_id:this.CustomerId,
+            shipping_method_id:this.ShippingMethod,            
         })
         .then((response)=>{
             this.refreshData();
@@ -243,12 +259,12 @@ export default ({
         },
 
         FilterFn(){
-            var CustomersIdFilter=this.CustomerIdFilter;
+            var OrderIdFilter=this.OrderIdFilter;
 
             this.orders=this.ordersWithoutFilter.filter(
                 function(el){
-                    return el.customer.CustomerId.toString().toLowerCase().includes(
-                        CustomersIdFilter.toString().trim().toLowerCase()
+                    return el.order_id.toString().toLowerCase().includes(
+                        OrderIdFilter.toString().trim().toLowerCase()
                     )
                 });
         },
