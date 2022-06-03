@@ -1,11 +1,11 @@
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from ShipmentsApp.models import ShippingMethod
-from ShipmentsApp.serializers import ShippingMethodSerializer
+from shipments_app.models import ShippingMethod
+from shipments_app.serializers import ShippingMethodSerializer
 
 
-class ShippingMethodRepository(object):
+class ShippingMethodRepository:
 
     @staticmethod
     def get_all() -> JsonResponse:
@@ -25,7 +25,7 @@ class ShippingMethodRepository(object):
     @staticmethod
     def update(request: object) -> JsonResponse:
         shipping_methods_data = JSONParser().parse(request)
-        shipping_method = ShippingMethod.objects.get(ShippingMethodId=shipping_methods_data['ShippingMethodId'])
+        shipping_method = ShippingMethod.objects.get(shipping_method_id=shipping_methods_data['shipping_method_id'])
         shipping_methods_serializer = ShippingMethodSerializer(shipping_method, data=shipping_methods_data)
         if shipping_methods_serializer.is_valid():
             shipping_methods_serializer.save()
@@ -34,6 +34,6 @@ class ShippingMethodRepository(object):
 
     @staticmethod
     def delete(id: int) -> JsonResponse:
-        shipping_method = ShippingMethod.objects.get(ShippingMethodId=id)
+        shipping_method = ShippingMethod.objects.get(shipping_method_id=id)
         shipping_method.delete()
         return JsonResponse("Deleted Successfully", safe=False)

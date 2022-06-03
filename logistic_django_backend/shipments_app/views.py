@@ -1,8 +1,8 @@
 from django.views.decorators.csrf import csrf_exempt
 
-from ShipmentsApp.services.order_repository import OrdersRepository
-from ShipmentsApp.services.customer_repository import CustomerRepository
-from ShipmentsApp.services.shippingmethod_repository import ShippingMethodRepository
+from shipments_app.services.order_repository import OrdersRepository
+from shipments_app.services.customer_repository import CustomerRepository
+from shipments_app.services.shippingmethod_repository import ShippingMethodRepository
 
 
 @csrf_exempt

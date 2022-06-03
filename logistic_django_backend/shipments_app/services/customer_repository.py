@@ -1,11 +1,11 @@
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from ShipmentsApp.models import Customer
-from ShipmentsApp.serializers import CustomerSerializer
+from shipments_app.models import Customer
+from shipments_app.serializers import CustomerSerializer
 
 
-class CustomerRepository(object):
+class CustomerRepository:
 
     @staticmethod
     def get_all() -> JsonResponse:
@@ -25,7 +25,7 @@ class CustomerRepository(object):
     @staticmethod
     def update(request: object) -> JsonResponse:
         customer_data = JSONParser().parse(request)
-        customer_method = Customer.objects.get(CustomerId=customer_data['CustomerId'])
+        customer_method = Customer.objects.get(customer_id=customer_data['customer_id'])
         customer_methods_serializer = CustomerSerializer(customer_method, data=customer_data)
         if customer_methods_serializer.is_valid():
             customer_methods_serializer.save()
@@ -34,6 +34,6 @@ class CustomerRepository(object):
 
     @staticmethod
     def delete(id: int) -> JsonResponse:
-        customer_method = Customer.objects.get(CustomerId=id)
+        customer_method = Customer.objects.get(customer_id=id)
         customer_method.delete()
         return JsonResponse("Deleted Successfully", safe=False)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ShipmentsApp.models import ShippingMethod, Customer, Order
+from shipments_app.models import ShippingMethod, Customer, Order
 
 
 class ShippingMethodSerializer(serializers.ModelSerializer):
@@ -15,8 +15,8 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    customer = CustomerSerializer(source='Customer')
-    shipping = ShippingMethodSerializer(source='ShippingMethod')
+    customer = CustomerSerializer(Customer)
+    shipping_method = ShippingMethodSerializer(ShippingMethod)
 
     class Meta:
         model = Order
@@ -24,9 +24,9 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class OrderPostSerializer(serializers.ModelSerializer):
-    Customer_id = serializers.IntegerField(read_only=False)
-    ShippingMethod_id = serializers.IntegerField(read_only=False)
+    customer_id = serializers.IntegerField(read_only=False)
+    shipping_method_id = serializers.IntegerField(read_only=False)
 
     class Meta:
         model = Order
-        fields = ('OrderId', 'ShippingDate', 'TrackingNo', 'Status', 'Customer_id', 'ShippingMethod_id')
+        fields = ('order_id', 'shipping_date', 'tracking_no', 'status', 'customer_id', 'shipping_method_id')

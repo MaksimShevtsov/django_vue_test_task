@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
-    'ShipmentsApp.apps.ShipmentsappConfig',
+    'shipments_app.apps.ShipmentsAppConfig',
 ]
 
 CORS_ALLOWED_ORIGINS = [

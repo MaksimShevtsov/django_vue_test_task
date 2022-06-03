@@ -1,11 +1,11 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from ShipmentsApp import views
+from shipments_app import views
 
 router = DefaultRouter()
 
 urlpatterns = [
-    path('shipping_method', views.shipping_method_api),
+    path('shipping_methods', views.shipping_method_api),
     path('shipping_method/<int:id>', views.shipping_method_api),
 
     path('customers', views.customer_api),

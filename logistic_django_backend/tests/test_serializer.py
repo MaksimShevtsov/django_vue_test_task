@@ -1,14 +1,14 @@
 from django.test import TestCase
-from ShipmentsApp.models import ShippingMethod, Customer, Order
-from ShipmentsApp.serializers import CustomerSerializer, ShippingMethodSerializer
+from shipments_app.models import ShippingMethod, Customer, Order
+from shipments_app.serializers import CustomerSerializer, ShippingMethodSerializer
 
 
 class SerializerTest(TestCase):
 
     def setUp(self):
         shipments_method_data = {
-            'ShippingMethodId': 1,
-            'ShippingMethodName': 'Car'
+            'shipping_method_id': 1,
+            'shipping_method_name': 'Car'
         }
 
         self.shipping_method = ShippingMethod.objects.create(**shipments_method_data)
