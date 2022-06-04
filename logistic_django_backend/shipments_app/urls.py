@@ -6,11 +6,11 @@ router = DefaultRouter()
 
 urlpatterns = [
     path('shipping_methods', views.shipping_method_api),
-    path('shipping_method/<int:id>', views.shipping_method_api),
+    path('shipping_method/<int:id>', views.shipping_method_api_delete),
 
     path('customers', views.customer_api),
-    path('customer/<int:id>', views.customer_api),
+    path('customer/<int:id>', views.customer_api_delete),
 
     path('orders', views.order_api),
-    path('order/<int:id>', views.order_api)
+    path('order/<int:id>', views.order_api_delete)
 ]
