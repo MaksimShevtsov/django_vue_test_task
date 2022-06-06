@@ -38,7 +38,6 @@ The business logic is completely separate from the view logic. Repositories in s
 | `/logistic_vue_ui`                        | Vue App .                                  |
 | `/logistic_vue_ui/src/main.js`            | JS Application Entry Point                 |
 | `docker-compose.yml`                      | Docker Compose Container configuration     |
-| `backend_setup.sh`                        | Commands run on django container on start  |
 | `requirements.txt`                        | Required Python packages. Installed by pip on image build |
 
 ## Prerequisites
@@ -51,6 +50,7 @@ Docker should install everything else in their containers.
 ## Setup App
 ```
 $ git clone https://github.com/MaksimShevtsov/django_vue_test_task.git
+cd django_vue_test_task
 ```
 Setup
 ```
