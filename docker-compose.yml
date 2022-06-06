@@ -9,7 +9,9 @@ services:
       - ./logistic_django_backend/data:/var/lib/postgresql/data
     restart: unless-stopped
     environment:
-        - "POSTGRES_HOST_AUTH_METHOD=trust"
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: local_db
 
   django:
     container_name: backend_django

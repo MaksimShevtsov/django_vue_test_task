@@ -29,8 +29,7 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 .vs/
 #Nuget packages folder
-packages/
-base/
 .idea/
 node_modules/
 *.pyc
+packages/
