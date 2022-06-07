@@ -103,7 +103,7 @@
                                         <select v-model="CustomerId">
                                             <option v-for="cust in customers"
                                                     v-bind:key="cust.id">
-                                                    {{cust.customer_id}}
+                                                    {{cust.customer_id}} - {{cust.customer_name}}
                                             </option>
                                         </select>
                                     </div>
@@ -116,7 +116,7 @@
                                         <select v-model="ShippingMethod">
                                             <option v-for="ship in shippingmethods"
                                                     v-bind:key="ship.id">
-                                                    {{ship.shipping_method_id}}
+                                                    {{ship.shipping_method_id}} - {{ship.shipping_method_name}}
                                             </option>
                                         </select>
                                     </div>
